@@ -1523,3 +1523,45 @@
 ---
 
 **Generated:** 2024-05-29 | **Status:** Active | **Versioning:** Git-tracked
+
+---
+
+## 🛠️ Personal Custom Skills (Desktop)
+
+Estos son tus skills personalizados/propios. Se sincronizan con Claude Desktop.
+
+### pitch-deck-html
+- **Descripción:** Build cinematic HTML pitch decks - fullscreen slides, keyboard navigation, film-quality transitions
+- **Fuente:** Personal (Desktop)
+- **Proyectos que lo usan:** -
+- **Tags:** presentations, pitches, client-decks
+
+### banana-pro-director-20
+- **Descripción:** Higgsfield image prompt director - Banana Pro, Soul Cinema, GPT-2. Photorealistic still generation
+- **Fuente:** Personal (Desktop)
+- **Proyectos que lo usan:** -
+- **Tags:** image-generation, photography, character-design
+
+### cinema-worldbuilder-pro-20
+- **Descripción:** Cinema worldbuilding director for Seedance video prompts. Production-ready cinematography
+- **Fuente:** Personal (Desktop)
+- **Proyectos que lo usan:** -
+- **Tags:** video-generation, cinematography, worldbuilding
+
+### animated-subtitles
+- **Descripción:** Animated subtitle data generation. Word-level timestamps, transcription, phrase animations
+- **Fuente:** Personal (Desktop)
+- **Proyectos que lo usan:** -
+- **Tags:** video, subtitles, transcription, animation
+
+### my-stack
+- **Descripción:** Browse and search 276-skill stack. Design, motion, 3D, marketing, game dev, more
+- **Fuente:** Personal (Desktop)
+- **Proyectos que lo usan:** -
+- **Tags:** skills-management, meta
+
+### skill-creator
+- **Descripción:** Create, modify, improve skills. Measure performance, optimize descriptions
+- **Fuente:** Personal (Desktop)
+- **Proyectos que lo usan:** -
+- **Tags:** skill-management, meta
