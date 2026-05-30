@@ -1580,3 +1580,52 @@ Estos son tus skills personalizados/propios. Se sincronizan con Claude Desktop.
 - **Tags:** ComfyUI, MCP, video-generation, AI-agents, workflow-orchestration, GPU-local
 - **Componentes:** artokun/comfyui-mcp, comfy-pilot, MCKRUZ/Expert, ComfyUI-3D-Pack, Impact Pack, LayerStyle, comfyui-workflow-skill, ComfyScript
 - **Status:** Production-ready | GPU: Local or remote | Integration: Claude Code native
+
+---
+
+## Video Frames & Fintech (nexu-io/open-design · Apache-2.0)
+
+### video-hyperframes
+- **Descripción:** Genera N frames Hyperframes/Remotion-compatible con autoplay. Cada `<section class="frame">` es 1920×1080. Frame 1 = hook, frames 2-N = argumento, último = CTA. Incluye metadatos JSON HYPERFRAMES_META para convertir a MP4.
+- **Cómo usarlo:** 1) Describe guión, 2) agente genera frames HTML, 3) HyperFrames CLI exporta MP4
+- **Integración:** design-hyperframes → video-hyperframes → frame-logo-outro → HyperFrames CLI → MP4
+- **Plan B:** Si HyperFrames falla, exportar con CapCut o NextFrame
+- **Fuente:** nexu-io/open-design (Apache-2.0)
+- **Proyectos que lo usan:** CDC, Bacoppel
+- **Tags:** hyperframes, video, remotion, frames, motion-graphics
+
+### digits-fintech-swiss-template
+- **Descripción:** Deck fintech Swiss grid, black/warm-paper/neon-lime, tarjetas numéricas bold, keyboard nav. HTML single-file 3 slides. Incluye assets/template.html y references/checklist.md con gates P0.
+- **Cómo usarlo:** 1) Partir de assets/template.html, 2) reemplazar copy/métricas, 3) mantener navegación (ArrowLeft/Right + dots)
+- **CDC específico:** Slide 1: 45% market share + 75M usuarios, Slide 2: pilares IA, Slide 3: circulodecredito.com.mx
+- **Plan B:** pitch-deck-html si necesitas más de 3 slides
+- **Fuente:** nexu-io/open-design (Apache-2.0)
+- **Proyectos que lo usan:** CDC
+- **Tags:** fintech, swiss-grid, deck, pitch, template, keyboard-nav
+
+### fal-lip-sync
+- **Descripción:** Talking head videos + lipsync audio→video vía fal.ai. Plan B para Higgsfield. Upstream: github.com/fal-ai-community/skills
+- **Cómo usarlo:** ElevenLabs audio + imagen vocero → fal.ai → video sincronizado
+- **Integración:** ElevenLabs → fal-lip-sync → NextFrame → animated-subtitles → CapCut
+- **Plan B:** Higgsfield (InfiniteTalk o Kling) como opción principal
+- **Fuente:** fal-ai-community/skills vía nexu-io/open-design (Apache-2.0)
+- **Proyectos que lo usan:** CDC, Bacoppel
+- **Tags:** lipsync, talking-head, fal-ai, video-generation, ElevenLabs
+
+### frame-logo-outro
+- **Descripción:** Frame de cierre: logo CSS/SVG por bloques + glow bloom + tagline + CTA. Animación 1.2s escalonada, freeze final. Paletas: Midnight Indigo, Solar Amber, Forest Mint, Bone & Ink.
+- **Cómo usarlo:** brand name + tagline + CTA URL + paleta → HTML 1920×1080 animado
+- **CDC específico:** "Círculo de Crédito" · "Tu historial, tu poder" · "circulodecredito.com.mx · Consúltalo Gratis" · Solar Amber
+- **Plan B:** Logo CDC como img centered + CSS glow filter
+- **Fuente:** nexu-io/open-design (Apache-2.0)
+- **Proyectos que lo usan:** CDC, Bacoppel
+- **Tags:** logo, outro, branding, end-card, hyperframes, CTA
+
+### frame-data-chart-nyt
+- **Descripción:** Frame datos estilo NYT: Source Serif Pro + IBM Plex Mono, SVG inline sin librerías, animación stroke-dashoffset. Fondo #f7f5ee o #0e0e0e.
+- **Cómo usarlo:** datos CSV/JSON/texto → conclusión como headline → HTML 1920×1080 animado
+- **CDC específico:** 45% market share, 75M usuarios, FICO 300-850, 13 días → 27 min. Fondo ink + amber.
+- **Plan B:** d3-visualization para datos complejos
+- **Fuente:** nexu-io/open-design (Apache-2.0)
+- **Proyectos que lo usan:** CDC, Bacoppel
+- **Tags:** data-viz, chart, nyt, editorial, hyperframes, svg, fintech
