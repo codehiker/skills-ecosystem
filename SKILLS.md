@@ -1,7 +1,7 @@
-# Skills Registry (276 skills)
+# Skills Registry (294 skills)
 
 **Última actualización:** 2024-05-29  
-**Total skills:** 276  
+**Total skills:** 294  
 **Fuente original:** Multi-repo consolidation  
 **Uso:** Busca por categoría abajo. Copy-paste la receta que necesites a tu proyecto.
 
@@ -202,6 +202,12 @@
 - **Proyectos que lo usan:** -
 
 ---
+
+### NextFrame
+- **Descripción:** AI-native video editor. JSON composition → desktop editor → MP4 export. Rust + Web Components
+- **Fuente:** github.com/ChaosRealmsAI/NextFrame
+- **Proyectos que lo usan:** CDC, Bacoppel
+- **Tags:** video, composition, runtime, AI-native, motion
 
 ## 🫧 Lottie / Rive
 
@@ -1549,10 +1555,12 @@ Estos son tus skills personalizados/propios. Se sincronizan con Claude Desktop.
 - **Tags:** video-generation, cinematography, worldbuilding
 
 ### animated-subtitles
-- **Descripción:** Animated subtitle data generation. Word-level timestamps, transcription, phrase animations
-- **Fuente:** Personal (Desktop)
-- **Proyectos que lo usan:** -
-- **Tags:** video, subtitles, transcription, animation
+- **Descripción:** Animated subtitle generation with word-level timestamps. Modes: phrase-level, word build-up, centered. Python scripts for Whisper transcription, word grouping, Y-position calculation, proportional layout. Output: JSON, SRT, GSAP animations
+- **Fuente:** Extracted from capcut-mcp-server (Personal Desktop)
+- **Proyectos que lo usan:** CDC, Bacoppel
+- **Tags:** video, subtitles, transcription, animation, GSAP, AI-audio
+- **Módulos:** transcribe_audio.py, group_words.py, calc_subtitle_y.py, word_layout.py
+- **Integración:** NextFrame, HyperFrames, Remotion, CapCut
 
 ### my-stack
 - **Descripción:** Browse and search 276-skill stack. Design, motion, 3D, marketing, game dev, more
@@ -1565,3 +1573,10 @@ Estos son tus skills personalizados/propios. Se sincronizan con Claude Desktop.
 - **Fuente:** Personal (Desktop)
 - **Proyectos que lo usan:** -
 - **Tags:** skill-management, meta
+### comfyui-stack
+- **Descripción:** Complete ComfyUI MCP orchestration stack. 15+ repos: workflow generation (artokun, comfyui-workflow-skill), video+voice pipeline (MCKRUZ/Expert), 3D generation (ComfyUI-3D-Pack), production quality (Impact Pack, LayerStyle), visualization (comfy-pilot). Claude Code native integration
+- **Fuente:** Personal (Custom Stack - Created May 2026)
+- **Proyectos que lo usan:** CDC, Bacoppel, internal production
+- **Tags:** ComfyUI, MCP, video-generation, AI-agents, workflow-orchestration, GPU-local
+- **Componentes:** artokun/comfyui-mcp, comfy-pilot, MCKRUZ/Expert, ComfyUI-3D-Pack, Impact Pack, LayerStyle, comfyui-workflow-skill, ComfyScript
+- **Status:** Production-ready | GPU: Local or remote | Integration: Claude Code native
