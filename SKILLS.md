@@ -1,7 +1,7 @@
-# Skills Registry (294 skills)
+# Skills Registry (299 skills)
 
 **Última actualización:** 2024-05-29  
-**Total skills:** 294  
+**Total skills:** 299  
 **Fuente original:** Multi-repo consolidation  
 **Uso:** Busca por categoría abajo. Copy-paste la receta que necesites a tu proyecto.
 
