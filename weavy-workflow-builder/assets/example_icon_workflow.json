@@ -1,0 +1,862 @@
+{
+  "nodes": [
+    {
+      "id": "843bb774-31ee-4de1-84d6-92af21e548d1",
+      "isModel": false,
+      "type": "custom_group",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "data": {
+        "name": "User Input",
+        "type": "custom_group",
+        "color": "#EDF2B3",
+        "width": 560,
+        "height": 700,
+        "handles": {
+          "input": [],
+          "output": []
+        },
+        "version": 3,
+        "description": "Group of nodes",
+        "labelFontSize": 16
+      },
+      "width": 560,
+      "height": 700,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "b5ce185f-cf7c-4dd0-bd50-71cc966cfce1",
+      "isModel": false,
+      "type": "import",
+      "position": {
+        "x": 40,
+        "y": 40
+      },
+      "parentId": "843bb774-31ee-4de1-84d6-92af21e548d1",
+      "data": {
+        "name": "Style reference",
+        "color": "Yambo_Blue",
+        "dark_color": "Yambo_Blue_Dark",
+        "border_color": "Yambo_Blue_Stroke",
+        "files": [],
+        "output": {
+          "file": null
+        },
+        "handles": {
+          "output": {
+            "file": {
+              "type": "any",
+              "format": "uri",
+              "description": "The uploaded file"
+            }
+          }
+        },
+        "version": 3,
+        "description": "Upload the style reference image here after pasting this workflow."
+      },
+      "width": 460,
+      "height": 300,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "ed29f65e-394a-4a7a-b2b6-f31e2dff9e98",
+      "isModel": false,
+      "type": "promptV3",
+      "position": {
+        "x": 40,
+        "y": 370
+      },
+      "parentId": "843bb774-31ee-4de1-84d6-92af21e548d1",
+      "data": {
+        "name": "Subject brief",
+        "color": "Yambo_Green",
+        "dark_color": "Yambo_Green_Dark",
+        "border_color": "Yambo_Green_Stroke",
+        "label": "prompt",
+        "output": {
+          "type": "text",
+          "prompt": "a ceramic coffee cup with a thin curved handle"
+        },
+        "handles": {
+          "output": {
+            "prompt": {
+              "type": "text"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 460,
+      "height": 140,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "aaee7ae4-78bf-46f7-9f99-627f3d1e29b0",
+      "isModel": false,
+      "type": "promptV3",
+      "position": {
+        "x": 40,
+        "y": 530
+      },
+      "parentId": "843bb774-31ee-4de1-84d6-92af21e548d1",
+      "data": {
+        "name": "Style brief",
+        "color": "Yambo_Green",
+        "dark_color": "Yambo_Green_Dark",
+        "border_color": "Yambo_Green_Stroke",
+        "label": "prompt",
+        "output": {
+          "type": "text",
+          "prompt": "soft 3D clay render, matte pastel colors, rounded edges, subtle ambient occlusion, isometric angle"
+        },
+        "handles": {
+          "output": {
+            "prompt": {
+              "type": "text"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 460,
+      "height": 140,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1",
+      "isModel": false,
+      "type": "router",
+      "position": {
+        "x": 700,
+        "y": 100
+      },
+      "data": {
+        "name": "Style",
+        "color": "Yambo_Blue",
+        "dark_color": "Yambo_Blue_Dark",
+        "border_color": "Yambo_Blue_Stroke",
+        "handles": {
+          "input": {
+            "in": {
+              "type": "any",
+              "label": "In",
+              "order": 0,
+              "description": "The input"
+            }
+          },
+          "output": {
+            "out": {
+              "type": "any",
+              "label": "Out",
+              "order": 0,
+              "description": "The output"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 250,
+      "height": 64,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "4e6ce938-e445-4533-aeca-84ace6527307",
+      "isModel": false,
+      "type": "promptV3",
+      "position": {
+        "x": 700,
+        "y": 250
+      },
+      "data": {
+        "name": "Merge brief of both style and item",
+        "color": "Yambo_Green",
+        "dark_color": "Yambo_Green_Dark",
+        "border_color": "Yambo_Green_Stroke",
+        "handles": {
+          "input": {
+            "variable1": {
+              "type": "text"
+            },
+            "variable2": {
+              "type": "text"
+            }
+          },
+          "output": {
+            "prompt": {
+              "type": "text"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 300,
+      "height": 140,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "b917f681-f246-4c9a-9293-892fa893f319",
+      "isModel": false,
+      "type": "promptV3",
+      "position": {
+        "x": 700,
+        "y": 450
+      },
+      "data": {
+        "name": "System Prompt",
+        "color": "Yambo_Green",
+        "dark_color": "Yambo_Green_Dark",
+        "border_color": "Yambo_Green_Stroke",
+        "label": "prompt",
+        "output": {
+          "type": "text",
+          "prompt": "You are an expert icon generation director.\nYou will receive:\n1. a subject brief describing the exact icon to generate\n2. a style brief describing the target visual language\n3. a style reference image showing the actual style to match\n4. an optional background color request\nYour task is to write one final icon-generation prompt for a new icon.\nPriority order:\n1. The subject brief defines what the icon is.\n2. The style reference image defines how the icon should look.\n3. The style brief clarifies the style seen in the reference image.\n4. The background defaults to black unless the user explicitly requests a different color.\nCritical rule:\nThe final icon must depict the exact intended subject from the subject brief. Style may change appearance only. Style must never change, replace, reinterpret, generalize, or decorate the subject into a different object.\nSubject fidelity rules:\n- Preserve the exact subject.\n- Do not substitute the subject with a metaphor, symbol, mascot, badge, crown, emblem, or adjacent concept unless the subject brief explicitly asks for that.\n- Do not broaden the subject into a category.\n- Do not replace a specific object with a more visually exciting object.\n- Do not introduce secondary objects that could confuse the main subject.\n- If the subject brief names a real object, that real object must remain the clear and dominant subject.\n- If the subject brief contains two words, interpret them together as one intended object when that is the most natural reading.\n- Prefer literal interpretation over symbolic interpretation.\n- If the subject is slightly awkward, uncommon, or plain, still depict it directly rather than inventing a more stylish alternative.\nStyle application rules:\n- Use the style reference image as the main authority for rendering style, shape language, proportions, materials, lighting, shadows, color richness, polish, perspective, tilt, and detail level.\n- The icon must feel native to the reference pack.\n- Apply the style to the requested subject without changing the subject itself.\n- Match the same family feel without copying the exact content of the reference image.\nIcon construction rules:\n- Generate one single standalone icon.\n- Keep it centered and isolated.\n- Prioritize clear silhouette and immediate recognizability.\n- Keep the composition compact and icon-friendly.\n- Remove non-essential clutter, scenery, staging, and decorative extras.\n- Do not create a full scene or illustration.\n- Avoid text unless the subject explicitly requires text.\nBackground rules:\n- Use a clean solid black background by default.\n- If the user explicitly requests a different background color, use that color instead.\n- Do not use transparent, scenic, textured, environmental, or gradient backgrounds unless explicitly requested.\nConflict rules:\n- If the subject brief and style constraints conflict, preserve the subject and adapt only its appearance to fit the style.\n- If simplification is needed, simplify form but not identity.\n- If the subject is specific, specificity must be preserved.\nOutput rules:\n- Return only one final prompt.\n- Write one paragraph only.\n- Do not explain reasoning.\n- Do not use bullet points, labels, or headers.\n- Use direct, concrete, visual language suitable for image generation.\nThe final prompt must clearly state:\n- the exact object to depict\n- the key recognizable features that make that object unmistakable\n- the required style qualities taken from the reference image\n- that the icon is centered on a black background unless another background color is explicitly requested"
+        },
+        "handles": {
+          "output": {
+            "prompt": {
+              "type": "text"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 460,
+      "height": 446,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "df88e479-9cce-4079-9029-a3cb025627b2",
+      "isModel": false,
+      "type": "custommodelV2",
+      "position": {
+        "x": 1100,
+        "y": 250
+      },
+      "data": {
+        "name": "Icon Machine",
+        "color": "Yambo_Orange",
+        "dark_color": "Yambo_Orange_Dark",
+        "border_color": "Yambo_Orange_Stroke",
+        "model": {
+          "name": "any_llm"
+        },
+        "params": {
+          "model": "google/gemini-3-pro",
+          "temperature": 0
+        },
+        "schema": {
+          "model": {
+            "type": "enum",
+            "order": 0,
+            "title": "Model Name",
+            "default": "google/gemini-3-pro",
+            "options": [
+              "anthropic/claude-sonnet-4-6",
+              "anthropic/claude-opus-4-7",
+              "anthropic/claude-opus-4-6",
+              "anthropic/claude-haiku-4-5",
+              "google/gemini-2.0-flash-001",
+              "google/gemini-2.5-flash",
+              "google/gemini-2.5-flash-lite",
+              "google/gemini-3-pro",
+              "openai/gpt-4o",
+              "openai/gpt-4.1",
+              "openai/gpt-5-chat",
+              "meta-llama/llama-4-maverick",
+              "meta-llama/llama-4-scout"
+            ]
+          },
+          "thinking": {
+            "type": "boolean",
+            "order": 5,
+            "title": "Thinking",
+            "default": false
+          },
+          "temperature": {
+            "type": "number",
+            "min": 0,
+            "max": 2,
+            "title": "Temperature",
+            "default": 0
+          }
+        },
+        "handles": {
+          "input": {
+            "image": {
+              "type": "image"
+            },
+            "prompt": {
+              "type": "text"
+            },
+            "image_2": {
+              "type": "image"
+            },
+            "system_prompt": {
+              "type": "text"
+            }
+          },
+          "output": {
+            "text": {
+              "type": "text"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 320,
+      "height": 200,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "11b98f3e-ea60-4eb9-8384-65237f6e9575",
+      "isModel": false,
+      "type": "router",
+      "position": {
+        "x": 1500,
+        "y": 250
+      },
+      "data": {
+        "name": "Router",
+        "color": "Yambo_Orange",
+        "dark_color": "Yambo_Orange_Dark",
+        "border_color": "Yambo_Orange_Stroke",
+        "handles": {
+          "input": {
+            "in": {
+              "type": "any",
+              "label": "In",
+              "order": 0,
+              "description": "The input"
+            }
+          },
+          "output": {
+            "out": {
+              "type": "any",
+              "label": "Out",
+              "order": 0,
+              "description": "The output"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 250,
+      "height": 64,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "48ee8925-ecdd-4090-9193-4fc758011bd8",
+      "isModel": false,
+      "type": "custommodelV2",
+      "position": {
+        "x": 1900,
+        "y": 200
+      },
+      "data": {
+        "name": "Gemini 3 (Nano Banana Pro)",
+        "color": "Yambo_Purple",
+        "dark_color": "Yambo_Purple_Dark",
+        "border_color": "Yambo_Purple_Stroke",
+        "model": {
+          "name": "fal-ai/nano-banana-pro/edit",
+          "service": "fal_imported",
+          "version": "fal-ai/nano-banana-pro/edit"
+        },
+        "params": {
+          "seed": {
+            "seed": 1,
+            "isRandom": true
+          },
+          "prompt": "",
+          "num_images": 1,
+          "resolution": "1K",
+          "aspect_ratio": "1:1",
+          "output_format": "png",
+          "enable_web_search": false
+        },
+        "schema": {
+          "seed": {
+            "type": "seed",
+            "title": "Seed",
+            "required": false
+          },
+          "prompt": {
+            "type": "string",
+            "title": "Prompt",
+            "required": true
+          },
+          "resolution": {
+            "type": "enum",
+            "title": "Resolution",
+            "default": "1K",
+            "exposed": true,
+            "options": [
+              "1K",
+              "2K",
+              "4K"
+            ]
+          },
+          "aspect_ratio": {
+            "type": "enum",
+            "title": "Aspect Ratio",
+            "default": "auto",
+            "exposed": false,
+            "options": [
+              "auto",
+              "1:1",
+              "21:9",
+              "16:9",
+              "3:2",
+              "4:3",
+              "5:4",
+              "4:5",
+              "3:4",
+              "2:3",
+              "9:16"
+            ]
+          },
+          "enable_web_search": {
+            "type": "boolean",
+            "title": "Enable Web Search",
+            "default": false
+          }
+        },
+        "handles": {
+          "input": {
+            "prompt": {
+              "type": "text",
+              "required": true
+            },
+            "image_1": {
+              "type": "image",
+              "required": false
+            },
+            "image_2": {
+              "type": "image",
+              "required": false
+            },
+            "resolution": {
+              "type": "text",
+              "format": "enum"
+            }
+          },
+          "output": {
+            "result": {
+              "type": "image"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 320,
+      "height": 200,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc",
+      "isModel": false,
+      "type": "router",
+      "position": {
+        "x": 2300,
+        "y": 200
+      },
+      "data": {
+        "name": "Router",
+        "color": "Yambo_Purple",
+        "dark_color": "Yambo_Purple_Dark",
+        "border_color": "Yambo_Purple_Stroke",
+        "handles": {
+          "input": {
+            "in": {
+              "type": "any",
+              "label": "In",
+              "order": 0,
+              "description": "The input"
+            }
+          },
+          "output": {
+            "out": {
+              "type": "any",
+              "label": "Out",
+              "order": 0,
+              "description": "The output"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 250,
+      "height": 64,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "ad6b488f-2b58-4c3b-b709-604f6a47ac41",
+      "isModel": false,
+      "type": "custommodelV2",
+      "position": {
+        "x": 2650,
+        "y": 80
+      },
+      "data": {
+        "name": "Bria - Remove Background",
+        "color": "Red",
+        "dark_color": "Red_Dark",
+        "border_color": "Red_Stroke",
+        "model": {
+          "name": "br_bgrmv"
+        },
+        "params": {},
+        "schema": {},
+        "handles": {
+          "input": {
+            "image": {
+              "type": "image"
+            }
+          },
+          "output": {
+            "image": {
+              "type": "image"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 320,
+      "height": 140,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "8afa02ce-6905-4d12-8056-63e86783aa52",
+      "isModel": false,
+      "type": "custommodelV2",
+      "position": {
+        "x": 2650,
+        "y": 260
+      },
+      "data": {
+        "name": "Recraft Vectorizer",
+        "color": "Red",
+        "dark_color": "Red_Dark",
+        "border_color": "Red_Stroke",
+        "model": {
+          "name": "fal-ai/recraft/vectorize",
+          "service": "fal_imported",
+          "version": "fal-ai/recraft/vectorize"
+        },
+        "params": {
+          "image_url": ""
+        },
+        "schema": {
+          "image_url": {
+            "type": "string",
+            "title": "Image Url",
+            "required": true
+          }
+        },
+        "handles": {
+          "input": {
+            "image_url": {
+              "type": "image"
+            }
+          },
+          "output": {
+            "result": {
+              "type": "image"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 320,
+      "height": 140,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "217cc59e-f659-43a8-ad6e-55be75ec135d",
+      "isModel": false,
+      "type": "export",
+      "position": {
+        "x": 3050,
+        "y": 80
+      },
+      "data": {
+        "name": "Export (PNG, transparent)",
+        "color": "Red",
+        "dark_color": "Red_Dark",
+        "border_color": "Red_Stroke",
+        "handles": {
+          "input": {
+            "file": {
+              "type": "any"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 250,
+      "height": 100,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "be33d869-4c38-46b0-b7eb-85cefaf1f5f5",
+      "isModel": false,
+      "type": "export",
+      "position": {
+        "x": 3050,
+        "y": 260
+      },
+      "data": {
+        "name": "Export (SVG)",
+        "color": "Red",
+        "dark_color": "Red_Dark",
+        "border_color": "Red_Stroke",
+        "handles": {
+          "input": {
+            "file": {
+              "type": "any"
+            }
+          }
+        },
+        "version": 3
+      },
+      "width": 250,
+      "height": 100,
+      "dragHandle": ".node-header"
+    },
+    {
+      "id": "f75ddcfe-bf10-44d0-8cee-8824490b9352",
+      "isModel": false,
+      "type": "workflow_output",
+      "position": {
+        "x": 3050,
+        "y": 420
+      },
+      "data": {
+        "name": "Output",
+        "handles": {
+          "input": {
+            "workflow": null
+          }
+        },
+        "version": 3
+      },
+      "width": 250,
+      "height": 80,
+      "dragHandle": ".node-header"
+    }
+  ],
+  "edges": [
+    {
+      "id": "f3549d6a-ef0c-4cf2-88d9-aefa2cbfdd81",
+      "type": "custom",
+      "source": "b5ce185f-cf7c-4dd0-bd50-71cc966cfce1",
+      "target": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1",
+      "sourceHandle": "b5ce185f-cf7c-4dd0-bd50-71cc966cfce1-output-file",
+      "targetHandle": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1-input-in",
+      "data": {
+        "sourceColor": "Yambo_Blue",
+        "targetColor": "Yambo_Blue",
+        "sourceHandleType": "any",
+        "targetHandleType": "any"
+      }
+    },
+    {
+      "id": "94c886f3-69ae-4f9e-831b-7b90a917a2f5",
+      "type": "custom",
+      "source": "ed29f65e-394a-4a7a-b2b6-f31e2dff9e98",
+      "target": "4e6ce938-e445-4533-aeca-84ace6527307",
+      "sourceHandle": "ed29f65e-394a-4a7a-b2b6-f31e2dff9e98-output-prompt",
+      "targetHandle": "4e6ce938-e445-4533-aeca-84ace6527307-input-variable1",
+      "data": {
+        "sourceColor": "Yambo_Green",
+        "targetColor": "Yambo_Green",
+        "sourceHandleType": "text",
+        "targetHandleType": "text"
+      }
+    },
+    {
+      "id": "09878b65-0f70-4eaa-8665-5fc4aa912801",
+      "type": "custom",
+      "source": "aaee7ae4-78bf-46f7-9f99-627f3d1e29b0",
+      "target": "4e6ce938-e445-4533-aeca-84ace6527307",
+      "sourceHandle": "aaee7ae4-78bf-46f7-9f99-627f3d1e29b0-output-prompt",
+      "targetHandle": "4e6ce938-e445-4533-aeca-84ace6527307-input-variable2",
+      "data": {
+        "sourceColor": "Yambo_Green",
+        "targetColor": "Yambo_Green",
+        "sourceHandleType": "text",
+        "targetHandleType": "text"
+      }
+    },
+    {
+      "id": "10e00b88-096e-486b-b1f3-570c52887421",
+      "type": "custom",
+      "source": "4e6ce938-e445-4533-aeca-84ace6527307",
+      "target": "df88e479-9cce-4079-9029-a3cb025627b2",
+      "sourceHandle": "4e6ce938-e445-4533-aeca-84ace6527307-output-prompt",
+      "targetHandle": "df88e479-9cce-4079-9029-a3cb025627b2-input-prompt",
+      "data": {
+        "sourceColor": "Yambo_Green",
+        "targetColor": "Yambo_Orange",
+        "sourceHandleType": "text",
+        "targetHandleType": "text"
+      }
+    },
+    {
+      "id": "f3fc931e-bf11-4fce-891d-c3171c3c9055",
+      "type": "custom",
+      "source": "b917f681-f246-4c9a-9293-892fa893f319",
+      "target": "df88e479-9cce-4079-9029-a3cb025627b2",
+      "sourceHandle": "b917f681-f246-4c9a-9293-892fa893f319-output-prompt",
+      "targetHandle": "df88e479-9cce-4079-9029-a3cb025627b2-input-system_prompt",
+      "data": {
+        "sourceColor": "Yambo_Green",
+        "targetColor": "Yambo_Orange",
+        "sourceHandleType": "text",
+        "targetHandleType": "text"
+      }
+    },
+    {
+      "id": "be3b58a7-160f-4da3-acfe-b87b5c52f791",
+      "type": "custom",
+      "source": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1",
+      "target": "df88e479-9cce-4079-9029-a3cb025627b2",
+      "sourceHandle": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1-output-out",
+      "targetHandle": "df88e479-9cce-4079-9029-a3cb025627b2-input-image",
+      "data": {
+        "sourceColor": "Yambo_Blue",
+        "targetColor": "Yambo_Orange",
+        "sourceHandleType": "any",
+        "targetHandleType": "image"
+      }
+    },
+    {
+      "id": "6c6f664e-fc0c-4447-a172-f98368b5e6ed",
+      "type": "custom",
+      "source": "df88e479-9cce-4079-9029-a3cb025627b2",
+      "target": "11b98f3e-ea60-4eb9-8384-65237f6e9575",
+      "sourceHandle": "df88e479-9cce-4079-9029-a3cb025627b2-output-text",
+      "targetHandle": "11b98f3e-ea60-4eb9-8384-65237f6e9575-input-in",
+      "data": {
+        "sourceColor": "Yambo_Orange",
+        "targetColor": "Yambo_Orange",
+        "sourceHandleType": "text",
+        "targetHandleType": "any"
+      }
+    },
+    {
+      "id": "9e666aa4-0d29-451f-b16e-c871290c8cdf",
+      "type": "custom",
+      "source": "11b98f3e-ea60-4eb9-8384-65237f6e9575",
+      "target": "48ee8925-ecdd-4090-9193-4fc758011bd8",
+      "sourceHandle": "11b98f3e-ea60-4eb9-8384-65237f6e9575-output-out",
+      "targetHandle": "48ee8925-ecdd-4090-9193-4fc758011bd8-input-prompt",
+      "data": {
+        "sourceColor": "Yambo_Orange",
+        "targetColor": "Yambo_Purple",
+        "sourceHandleType": "any",
+        "targetHandleType": "text"
+      }
+    },
+    {
+      "id": "2fab7b35-0a0d-4dd4-90be-22066dedd939",
+      "type": "custom",
+      "source": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1",
+      "target": "48ee8925-ecdd-4090-9193-4fc758011bd8",
+      "sourceHandle": "60135e2d-6ffa-42d5-ac08-4ecfa80914b1-output-out",
+      "targetHandle": "48ee8925-ecdd-4090-9193-4fc758011bd8-input-image_1",
+      "data": {
+        "sourceColor": "Yambo_Blue",
+        "targetColor": "Yambo_Purple",
+        "sourceHandleType": "any",
+        "targetHandleType": "image"
+      }
+    },
+    {
+      "id": "ade30db9-e6d2-4d81-98a3-2777b9e1f9f9",
+      "type": "custom",
+      "source": "48ee8925-ecdd-4090-9193-4fc758011bd8",
+      "target": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc",
+      "sourceHandle": "48ee8925-ecdd-4090-9193-4fc758011bd8-output-result",
+      "targetHandle": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc-input-in",
+      "data": {
+        "sourceColor": "Yambo_Purple",
+        "targetColor": "Yambo_Purple",
+        "sourceHandleType": "image",
+        "targetHandleType": "any"
+      }
+    },
+    {
+      "id": "193ac5ac-91ce-4f26-bc90-9248f275c92f",
+      "type": "custom",
+      "source": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc",
+      "target": "ad6b488f-2b58-4c3b-b709-604f6a47ac41",
+      "sourceHandle": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc-output-out",
+      "targetHandle": "ad6b488f-2b58-4c3b-b709-604f6a47ac41-input-image",
+      "data": {
+        "sourceColor": "Yambo_Purple",
+        "targetColor": "Red",
+        "sourceHandleType": "any",
+        "targetHandleType": "image"
+      }
+    },
+    {
+      "id": "fc6691a9-5174-42db-9d6b-08a0795cb60c",
+      "type": "custom",
+      "source": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc",
+      "target": "8afa02ce-6905-4d12-8056-63e86783aa52",
+      "sourceHandle": "71c8e5a1-2552-4489-8227-5bda4ec8c8fc-output-out",
+      "targetHandle": "8afa02ce-6905-4d12-8056-63e86783aa52-input-image_url",
+      "data": {
+        "sourceColor": "Yambo_Purple",
+        "targetColor": "Red",
+        "sourceHandleType": "any",
+        "targetHandleType": "image"
+      }
+    },
+    {
+      "id": "b4ca8ae2-1bdb-4fa1-bb71-7c7f94fa15db",
+      "type": "custom",
+      "source": "ad6b488f-2b58-4c3b-b709-604f6a47ac41",
+      "target": "217cc59e-f659-43a8-ad6e-55be75ec135d",
+      "sourceHandle": "ad6b488f-2b58-4c3b-b709-604f6a47ac41-output-image",
+      "targetHandle": "217cc59e-f659-43a8-ad6e-55be75ec135d-input-file",
+      "data": {
+        "sourceColor": "Red",
+        "targetColor": "Red",
+        "sourceHandleType": "image",
+        "targetHandleType": "any"
+      }
+    },
+    {
+      "id": "a9796c8c-784c-49a5-8867-62963315ef4c",
+      "type": "custom",
+      "source": "8afa02ce-6905-4d12-8056-63e86783aa52",
+      "target": "be33d869-4c38-46b0-b7eb-85cefaf1f5f5",
+      "sourceHandle": "8afa02ce-6905-4d12-8056-63e86783aa52-output-result",
+      "targetHandle": "be33d869-4c38-46b0-b7eb-85cefaf1f5f5-input-file",
+      "data": {
+        "sourceColor": "Red",
+        "targetColor": "Red",
+        "sourceHandleType": "image",
+        "targetHandleType": "any"
+      }
+    },
+    {
+      "id": "8a1edb36-9552-42b3-88d5-6b196a2d33d1",
+      "type": "custom",
+      "source": "ad6b488f-2b58-4c3b-b709-604f6a47ac41",
+      "target": "f75ddcfe-bf10-44d0-8cee-8824490b9352",
+      "sourceHandle": "ad6b488f-2b58-4c3b-b709-604f6a47ac41-output-image",
+      "targetHandle": "f75ddcfe-bf10-44d0-8cee-8824490b9352-input-workflow",
+      "data": {
+        "sourceColor": "Red",
+        "targetColor": "Red",
+        "sourceHandleType": "image",
+        "targetHandleType": "any"
+      }
+    }
+  ]
+}
