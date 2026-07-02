@@ -1,7 +1,7 @@
-# Skills Registry (299 skills)
+# Skills Registry (300 skills)
 
-**Última actualización:** 2026-07-01  
-**Total skills:** 299  
+**Última actualización:** 2026-07-02  
+**Total skills:** 300  
 **Fuente original:** Multi-repo consolidation  
 **Uso:** Busca por categoría abajo. Copy-paste la receta que necesites a tu proyecto.
 
@@ -1537,6 +1537,13 @@
 ## 🛠️ Personal Custom Skills (Desktop)
 
 Estos son tus skills personalizados/propios. Se sincronizan con Claude Desktop.
+
+### weavy-workflow-builder
+- **Descripción:** Builds Figma Weave (formerly Weavy, weave.figma.com) node-based AI workflows as clipboard-ready JSON from a natural-language brief. Reverse-engineered schema (no public API/MCP exists) — covers custommodelV2 (Any LLM, Nano Banana Pro, Bria, Recraft, Rodin, Kling), string, promptV3 (static + merge), router, muxv2 (incl. isIterator), array, import, export, workflow_output, compv3, painterV2, custom_group. Includes `node_builders.py` with a tested Python builder pattern + integrity validator for 15+-node workflows
+- **Fuente:** Personal (Desktop) — moved to `codehiker/skills-ecosystem` 2026-07-02
+- **Proyectos que lo usan:** CDC (Chroma icon pipeline, Círculo de Crédito ad-video pipeline)
+- **Tags:** weave, weavy, figma, node-workflows, image-generation, video-generation, clipboard-json
+- **Validación:** Todas las afirmaciones del schema confirmadas vía paste-and-run en vivo el 2026-07-02, incluyendo el bloque `kind` (dos shapes distintos según modelo), `compv3` con estructura real de `layers`, y el nodo `promptV3` merge — refutando una narrativa falsa previa (documento de ACTINVER) que afirmaba que el copy-paste manual nunca funciona
 
 ### pitch-deck-html
 - **Descripción:** Build cinematic HTML pitch decks - fullscreen slides, keyboard navigation, film-quality transitions
