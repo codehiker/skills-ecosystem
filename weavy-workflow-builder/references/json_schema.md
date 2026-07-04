@@ -46,9 +46,11 @@ Fields seen but NOT required for a successful paste (Weave appears to regenerate
 
 Verified in a real user-exported production workflow, and in a minimal isolated test (`string` → `promptV3` → `custommodelV2` any_llm) built specifically to isolate this variable, pasted into a live Weave canvas, and run successfully. **Always generate both `edges` AND `kind` for every wired `custommodelV2` input; this is not optional.**
 
-**⚠️ The shape of `kind` is NOT uniform across models — it depends on `kind.type`, which is NOT the same as `model.name`.** Confirmed from a second, larger real production workflow (icon-pack generator, 60+ nodes): only `any_llm` and `kling` use the named-key shape below (Shape A). Every other model observed so far (`fal-ai/nano-banana-pro/edit`, `br_bgrmv`, and presumably every other `fal_imported` model in the catalog — Recraft vectorize, Rodin 3D) uses `kind.type: "wildcard"` (Shape B) — a completely different array-of-tuples shape. **Always check which shape applies before writing a node's `kind` block.**
+**⚠️ The shape of `kind` is NOT uniform across models — it depends on `kind.type`, which is NOT the same as `model.name`.** Confirmed from a second, larger real production workflow (icon-pack generator, 60+ nodes): `any_llm` uses the named-key shape below (Shape A). Every other model observed so far (`fal-ai/nano-banana-pro/edit`, `br_bgrmv`, and presumably every other `fal_imported` model in the catalog — Recraft vectorize, Rodin 3D) uses `kind.type: "wildcard"` (Shape B) — a completely different array-of-tuples shape. **Always check which shape applies before writing a node's `kind` block.**
 
-**Shape A — named keys (`any_llm`, `kling` only):**
+**🔴 CORRECTION (2026-07-04): `kling` is NOT reliably Shape A.** A third real production workflow (fashion pose-matrix, 4-image garment compositing → 8-way pose fan-out → Kling video) contained a `custommodelV2` node with `model.name: "kling"` whose `kind.type` was **`"wildcard"` (Shape B)**, not the named-key Shape A previously documented here. This node was also a visibly different Kling variant from the one in `node_catalog.md` — display name "Kling First & Last Frame", `params.model` options `["O1 Pro","O1 Standard","2.1 Pro","2.5 Turbo Pro"]`, `duration` as an enum `[5,10]` (not a 3–15 integer range), and the last-frame input handle keyed `tail_image_url` (not `end_image_url`). Same `model.name`, different node preset, different `kind` shape and different field names. **Do not assume `kling`'s `kind` shape or field names from `model.name` alone** — check the actual node's `kind.type` and `handles` (from a real pasted export, or `node_catalog.md`'s matching variant) every time. See the two Kling variants documented separately in `node_catalog.md`.
+
+**Shape A — named keys (confirmed only for `any_llm`):**
 ```json
 "kind": {
   "type": "any_llm",
@@ -60,7 +62,7 @@ Verified in a real user-exported production workflow, and in a minimal isolated 
   "images": [["image", null]]
 }
 ```
-- `type` mirrors `model.name` (e.g. `any_llm`, `kling`).
+- `type` mirrors `model.name` for models confirmed on Shape A (e.g. `any_llm`). Do not assume this holds for `kling` — see the 🔴 correction above.
 - Each configured **param** (model, temperature, thinking, etc.) gets wrapped as `{ "type": "value", "data": { "type": "<string|float|boolean|integer>", "value": <the actual value> } }` — this is a different shape from the plain `params` block, don't confuse the two.
 - Each **wired input** (prompt, systemPrompt, image, etc.) gets `{ "nodeId": "<source node id>", "outputId": "<source handle key>", "string": "" }` — `nodeId`/`outputId` must match a real `edges` entry wiring the same connection. `string` is always left as an empty string (Weave appears to populate it at runtime).
 - Unwired optional inputs (e.g. no image attached) still get an entry, e.g. `"images": [["image", null]]`.

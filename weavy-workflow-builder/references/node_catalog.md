@@ -25,7 +25,19 @@ This is the workhorse type. Every external AI model call (image gen, LLM, vector
 }
 ```
 
-**⚠️ `data.kind` is required for execution and its shape depends on `kind.type`, NOT on `model.name`.** `any_llm` and `kling` use a named-key shape; every other model here (Nano Banana Pro, Bria, Recraft, Rodin) uses `kind.type: "wildcard"` — a structurally different array-of-tuples shape. Read the "`kind` block" section in `references/json_schema.md` before writing any `custommodelV2` node's `kind` — do not assume one model's shape works for another.
+**⚠️ `data.kind` is required for execution and its shape depends on `kind.type`, NOT on `model.name`.** `any_llm` uses a named-key shape (Shape A); every other model confirmed so far (Nano Banana Pro, Bria, Recraft, Rodin) uses `kind.type: "wildcard"` (Shape B) — a structurally different array-of-tuples shape. **`kling` is ambiguous**: two different real Kling node presets have been observed, one on Shape A and one on Shape B — see the two variants below and the correction note in `references/json_schema.md`. Read the "`kind` block" section there before writing any `custommodelV2` node's `kind` — do not assume one model's shape works for another, and for `kling` specifically, check the actual node/example you're matching against rather than defaulting to either shape.
+
+**🔴 CONFIRMED (2026-07-04): a `custommodelV2` node with a guessed/unverified `model.name` + `model.service` causes a full client-side crash on paste** — not a validation toast, a whole-app error screen ("Oops! Something went wrong," with no further detail, requiring a canvas refresh). This was reproduced directly: a workflow with a placeholder node for `"gpt-image-2"` / service `"openai"` (invented because that model wasn't in this catalog yet) crashed Weave immediately on paste. Removing that node and every reference to it (same graph, same edges elsewhere, only that node + its 2-3 edges deleted, model swapped for the confirmed Nano Banana Pro) pasted clean on the very next attempt — isolating the guessed model as the sole cause. Weave appears to try to resolve `model.name`/`model.service` against its live model registry when rendering the node, and an unrecognized combination throws an uncaught exception rather than failing gracefully.
+
+**Practical rule: never include a guessed `model.name`/`model.service` in JSON that gets pasted into a live canvas**, even clearly labeled `[UNVERIFIED]` in the node's display name — the label is invisible to Weave's registry lookup and doesn't prevent the crash. Instead, when the brief needs a model not yet in this catalog:
+1. Build the rest of the workflow using confirmed models only, and deliver that first.
+2. Separately, ask the user to place the real node in Weave, configure it, copy it, and paste the raw JSON back into chat (per "Adding new node types" in SKILL.md) — do this *before* attempting to include that model in any paste-ready output, not after.
+3. Only once you have the user-provided real node text should that model appear in generated JSON.
+
+**Bisection method for isolating a crash** (used successfully here, worth repeating for any future "paste crashes the whole app" report):
+1. Test the absolute minimum — a single confirmed-safe node (e.g. a static `promptV3`) pasted alone. If this also crashes, the problem isn't node content at all (clipboard format, browser extension, canvas state) — stop and investigate those instead.
+2. If the minimal test pastes clean, rebuild the full intended workflow but with every uncertain/guessed node type or model swapped for a fully-confirmed equivalent (or removed). If *this* pastes clean, the guessed node(s) are confirmed as the cause.
+3. Only then re-introduce the uncertain piece in isolation (its own tiny paste, 1-2 nodes) to double-confirm, rather than guessing further from the original crash report alone.
 
 ### Image generation/editing — "Gemini 3 (Nano Banana Pro)"
 
@@ -171,7 +183,35 @@ Use for "turn this into a 3D model", "generate a 3D asset from this reference". 
   "output": { "video": { "type": "video", "label": "video" } }
 }
 ```
-Use for "animate this image", "turn this into a video clip", "image-to-video". `image` = first frame (optional — omit for pure text-to-video), `end_image_url` = optional last frame for first/last-frame interpolation. `duration` is in seconds (3-15). This node also needs a `kind` block (see `references/json_schema.md`) — its `prompt` key binds the same way as `any_llm`'s.
+Use for "animate this image", "turn this into a video clip", "image-to-video". `image` = first frame (optional — omit for pure text-to-video), `end_image_url` = optional last frame for first/last-frame interpolation. `duration` is in seconds (3-15). **This variant's `kind` block is Shape A** (named keys, same style as `any_llm` — see `references/json_schema.md`) — its `prompt` key binds the same way as `any_llm`'s.
+
+### Image → video — "Kling First & Last Frame" (🔴 different variant, Shape B — see correction below)
+
+**⚠️ This is a different Weave node preset from "Kling 3.0 Pro" above** — same `model.name: "kling"`, but different `params`/`schema`/`handles`, and critically a **different `kind` shape**. Confirmed from a real production workflow (fashion pose-matrix generator).
+
+```json
+"model": { "name": "kling" },
+"menu": { "icon": "EmojiObjectsIcon", "isModel": true, "displayName": "Kling First & Last Frame" },
+"params": { "model": "O1 Pro", "duration": 5, "cfg_scale": 0.5 },
+"schema": {
+  "model": { "type": "enum", "title": "Model", "default": "O1 Pro", "options": ["O1 Pro", "O1 Standard", "2.1 Pro", "2.5 Turbo Pro"], "description": "Kling model type" },
+  "duration": { "type": "enum", "title": "Duration", "default": 5, "options": [5, 10], "description": "Length of the video - 5 or 10 seconds." },
+  "cfg_scale": { "type": "number", "title": "Guidance Scale", "default": 0.5, "min": 0, "max": 1 }
+},
+"handles": {
+  "input": {
+    "prompt": { "type": "text", "label": "prompt", "required": true },
+    "image": { "type": "image", "label": "first_frame", "required": true, "description": "URL of the image to be used for the video" },
+    "tail_image_url": { "type": "image", "label": "last_frame", "required": false, "description": "URL of the image to be used for the end of the video" },
+    "negative_prompt": { "type": "text", "label": "negative_prompt", "required": false }
+  },
+  "output": { "video": { "type": "video", "label": "video" } }
+}
+```
+
+**🔴 `kind.type` for this variant is `"wildcard"` (Shape B)**, not the named-key Shape A used by "Kling 3.0 Pro" above — the `kind` block for this node is an array-of-tuples exactly like Nano Banana Pro's, with `prompt`/`image`/`tail_image_url`/`negative_prompt` as `[<field schema>, <binding>]` pairs inside `kind.inputs`, and `model`/`duration`/`cfg_scale` as `[<field schema>, {"type":"value","data":{...}}]` pairs inside `kind.parameters` — follow the Shape B template in `references/json_schema.md`, not Shape A.
+
+Differences from "Kling 3.0 Pro" to watch for: `duration` is a fixed enum `[5, 10]` here (not a free 3–15 range), the last-frame handle is named **`tail_image_url`** (not `end_image_url`), and there's no `shot_type`/`aspect_ratio`/`generate_audio` params. **Never assume which Kling variant applies from `model.name` alone** — match the exact `params`/`handles`/`kind.type` shown here or in the "Kling 3.0 Pro" entry to whichever one the user's pasted node (or the brief's context) actually matches; if unsure, ask the user to paste their Kling node so you can confirm which preset it is.
 
 ---
 
@@ -231,7 +271,9 @@ No `handles.input` key at all (empty/absent) — this node originates text, it d
 
 Unlike the static variant, this one genuinely performs `{{variable}}` templating inside Weave itself — confirmed visually (the canvas renders "Variable 1"/"Variable 2" as inline highlighted chips inside the merged text, and running the node produces the correctly substituted string). It is not merely a passive label/concatenation point. That said, it's still common and valid to feed its output into a downstream `custommodelV2` (Any LLM) for further reasoning on top of the merged text — just don't assume the merge node itself does nothing.
 
-Use static `promptV3` for: system prompts, fixed creative briefs, instructional text. Use the merge variant when two separate text sources need to converge into one input for a downstream model.
+**✅ CONFIRMED PATTERN (2026-07-04): a single-variable `promptV3` (only `variable1`, `variable2` omitted) can be templated from a `muxv2` `list_selector` instead of a static string — and the *same* selector node can drive `variable1` on multiple separate `promptV3` nodes at once.** Real production example (fashion pose-matrix generator): one `muxv2` node (`list_selector`, options `["white", "black"]`, i.e. a skin-tone toggle) fed `variable1` on **two different `promptV3` nodes simultaneously** — one templating a long system prompt (`"Male model with short dark hair, {{variable1}} skin\n..."`), the other templating a separate content prompt reusing the same word. Both nodes' `inputNodes` array pointed at the identical `{nodeId, outputId}` pair from the one `muxv2` node. This means: to add one control that swaps a value across an entire pipeline's worth of prompts in sync, use one `muxv2` list_selector as the single source of truth and wire its output into `variable1` on every `promptV3` node that needs that value — don't duplicate the selector per prompt.
+
+Use static `promptV3` for: system prompts, fixed creative briefs, instructional text. Use the merge variant when two separate text sources need to converge into one input for a downstream model, or when one small controllable value (e.g. a toggle) needs to be templated into one or more prompts from a single shared `muxv2` source.
 
 ---
 
@@ -269,6 +311,8 @@ Takes an array in, lets the user (or App Mode UI) pick one, outputs the chosen t
 **`isIterator: true`** (seen set at `data.isIterator`, alongside `data.type: "list_selector"`) marks this `muxv2` as an iterator rather than a static picker — confirmed in a real workflow where a single array (5 generated ad scripts) fed this node, and its output was consumed by 8 parallel downstream branches, each extracting a different fixed slice via its own system prompt. Set this flag whenever the brief implies "for each item in this list, do X" rather than "let the user pick one item".
 
 **Alternative fan-out pattern — N static indexers instead of one iterator:** a real production workflow (icon-pack generator, 10 icons from one array) used **10 separate `muxv2` nodes**, each with `isIterator` omitted/false and `"selected": 0` through `9` respectively, all pointing at the *same* upstream `array`/`router` output — rather than one `isIterator: true` node. Each selector then feeds its own downstream branch. Prefer this pattern when the fan-out count is fixed and known at generation time (e.g. "generate exactly 10 icons") and each branch needs a distinct static index; prefer `isIterator: true` when the brief implies a dynamic, index-agnostic "for each" relationship. Both are confirmed-working; pick based on which better matches the brief's intent, not just count.
+
+**✅ Second confirmed instance (2026-07-04):** the N-static-indexers pattern also underpins a full "1 LLM call → N images" fan-out, seen end-to-end in a real fashion pose-matrix workflow: one `custommodelV2` (`any_llm`, Gemini 3 Pro, 4 image inputs + a pose-director system prompt) generated 8 pose-variant prompts in one response, separated by `^` → one `array` node split them (`"delimiter": "^"`, confirming `^` as a second working delimiter alongside the previously-documented `,` and `§§`) → **8 separate `muxv2` nodes** with `"selected": 0`–`7` each picked one prompt → each selector fed its own `custommodelV2` (Nano Banana Pro) image-generation node, all four also wired to the same 4 upstream reference images via `router` pass-throughs. This is the general shape to reach for whenever a brief implies "generate one prompt per variant, then render each variant" — one LLM call, one `array` split, N static `muxv2` selectors, N parallel generation nodes.
 
 ---
 
