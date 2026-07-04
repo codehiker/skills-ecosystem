@@ -4,6 +4,8 @@ Tracks what's changed or been newly confirmed in this skill, newest first. This 
 
 **Maintenance rule:** whenever you add a new 🔴/✅ CONFIRMED finding, fix a bug in the schema/scripts, or change guidance in `SKILL.md`/`references/`, add one entry here — a couple of lines is enough. Put newest entries at the top. Link to the section that has the full detail rather than duplicating it here.
 
+**Repackage rule:** after any update to this skill, repackage it with skill-creator's `package_skill.py` into a `.skill` file and present it for download, so it can be reinstalled in Claude Desktop and stay in sync across all projects — do this automatically as part of finishing the update, not just when asked.
+
 ---
 
 ## 2026-07-04 (2)
