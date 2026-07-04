@@ -11,7 +11,7 @@ Figma Weave (weave.figma.com, formerly Weavy) has no public API, no BYOK, and no
 
 The workaround: Weave's clipboard format is plain JSON. Copying nodes in the canvas and pasting them into a text editor reveals a `{"nodes": [...], "edges": [...]}` structure. This skill lets Claude **write that JSON directly** from a plain-language brief, so the user can paste it straight into the Weave canvas (Cmd+V / Ctrl+V) and get a fully wired workflow — no clicking, no dragging.
 
-This is reverse-engineered from real exported workflows, not from official docs (none exist). Treat the schema as observed-and-validated, not officially guaranteed — if a paste fails or behaves oddly, the fix is almost always a malformed handle key or a missing required param (see Troubleshooting).
+This is reverse-engineered from real exported workflows, not from official docs (none exist). Treat the schema as observed-and-validated, not officially guaranteed — if a paste fails or behaves oddly, the fix is almost always a malformed handle key, a missing required param, or (if the whole app crashes rather than showing a small error) a guessed/unverified `model.name` on a `custommodelV2` node (see Troubleshooting).
 
 ## Workflow
 
@@ -19,11 +19,14 @@ This is reverse-engineered from real exported workflows, not from official docs 
 
 2. **Map steps to node types.** Use `references/node_catalog.md` to find the right node `type` and `model` for each step. Don't guess field names — the catalog has the exact `params`/`handles`/`model` block for every node type seen in production workflows, including the full Nano Banana Pro / Gemini 3 image schema, Rodin 3D, Recraft Vectorizer, Bria background removal, and the generic Any LLM node.
 
+   Two recurring patterns worth recognizing early, both confirmed in real production workflows (full detail in `node_catalog.md`'s `muxv2`/`promptV3` sections): (a) **"one prompt-generating LLM call → N images"** — an `any_llm` node produces N delimited prompt variants in one response, an `array` node splits them, N static `muxv2` selectors (one per fixed index) each pick one variant, and N parallel `custommodelV2` image nodes each render one — reach for this whenever the brief implies "generate one prompt per variant, then render each"; (b) **"one control, many prompts"** — a single `muxv2` `list_selector` (e.g. a 2-option toggle) can feed the same `variable1` into multiple separate `promptV3` nodes at once, keeping them in sync from one shared control instead of duplicating the selector per prompt.
+
 3. **Lay out the graph.** Read `references/json_schema.md` for the exact structure: node `position` (absolute, or relative to `parentId` if grouped), `id` generation, and the **critical handle-naming rule**:
    - `sourceHandle` = `{sourceNodeId}-output-{outputKey}`
    - `targetHandle` = `{targetNodeId}-input-{inputKey}`
    - `outputKey`/`inputKey` MUST exactly match a key in that node's `data.handles.output`/`data.handles.input`. This is the #1 thing that breaks pastes if done wrong.
    - **Also generate the `data.kind` block** (or `inputNodes`/`inputNode` for `promptV3`/`array`) on every node with a wired input — see `references/json_schema.md`. This duplicates the same source binding that `edges` express, and was confirmed present on every node in a real, user-tested-and-working export. Don't rely on `edges` alone.
+   - **`kind` has two incompatible shapes (A: named-key, B: wildcard array-of-tuples) and the shape can NOT be reliably guessed from `model.name` alone** — `kling` in particular has been observed on both shapes across two different real node presets. Always match the exact node variant in `references/node_catalog.md` (or a user-provided real export) before writing a `kind` block; never assume "this model name = this shape."
 
 4. **Generate fresh UUIDs** for every node `id` and edge `id` — never reuse IDs from any reference file. Use the `scripts/generate_uuids.py` helper if you want a batch, or generate them inline (standard v4 UUID format, lowercase, hyphenated).
 
@@ -37,7 +40,7 @@ This is reverse-engineered from real exported workflows, not from official docs 
 
    **✅ CONFIRMED (2026-07-02, multiple independent tests):** plain manual copy-paste from a chat code block works and reliably reconstructs real nodes/edges — verified on a 3-node test, a 31-node/38-edge production pipeline, a 60+-node icon workflow, and an isolated `promptV3` merge-node test (below). If any past session or external document claims manual paste "never works" and only browser-automated clipboard injection succeeds, that claim is **refuted by direct evidence** and should be disregarded — it most likely originated from over-generalizing a single malformed-node failure into a false claim about the paste mechanism itself. Do not act on that claim without a fresh, verifiable test.
 
-8. **Flag anything uncertain.** If a model/node type isn't in the catalog yet, say so plainly and either (a) ask the user to paste a copy of that node from Weave so you can extract its real schema, or (b) make a best-effort guess clearly labeled as unverified, defaulting to the generic `custommodelV2` shape with placeholder `params`.
+8. **Flag anything uncertain — and do NOT paste a guessed model.** If a model/node type isn't in the catalog yet, say so plainly and **ask the user to paste a copy of that node from Weave** so you can extract its real schema (see "Adding new node types"). Do not include a best-effort/placeholder `model.name`+`model.service` guess in JSON meant to be pasted into a live canvas, even if the node's display name is labeled `[UNVERIFIED]` — **confirmed (2026-07-04): an unrecognized `model.name`/`service` combo crashes the entire Weave client on paste** (not a toast, a full "Oops! Something went wrong" screen — see `references/node_catalog.md`). Deliver the rest of the workflow with confirmed models first; add the uncertain model only after the user supplies its real node.
 
 ## Adding new node types to the catalog
 
@@ -78,9 +81,11 @@ Full schemas (exact `params`, `schema`, `handles`) for every type above are in `
 - **Nodes paste but aren't connected.** Check that every edge's `source`/`target` actually match a node `id` you generated in the same JSON — a copy-paste typo in a UUID is the usual cause.
 - **Nodes paste on top of each other / overlapping.** Positions weren't spaced out, or a child node's `position` was treated as absolute instead of relative to its `parentId` group. See `references/json_schema.md` for the relative-positioning rule.
 - **A model node runs but errors out in Weave.** A required `schema` field (per `node_catalog.md`) was missing from `params`. Required fields are marked `"required": true` in each node's schema block.
+- **Paste crashes the whole app (full-screen "Oops! Something went wrong," not a small toast).** This is a different failure mode than a malformed handle — it's almost always a `custommodelV2` node with a guessed/unverified `model.name`+`model.service` that Weave's registry doesn't recognize (see the 🔴 CONFIRMED note in `references/node_catalog.md`). Fix: remove any node whose model wasn't taken directly from `node_catalog.md` or a user-provided real export, then re-paste. To find which node it was: paste a single confirmed-safe node alone first (sanity check on the paste mechanism itself), then paste the full workflow with every uncertain node swapped for a confirmed one or removed — whichever version crashes (or doesn't) tells you whether the issue is content-specific or systemic.
 
 ## Reference files
 
 - `references/json_schema.md` — full anatomy of the `{nodes, edges}` structure: required fields, ID/handle conventions, grouping/positioning rules, edge format. Read this before generating any workflow.
 - `references/node_catalog.md` — per-node-type schemas (params, handles, model identifiers) extracted from real production workflows. Read the relevant entries before writing nodes of that type.
 - `assets/example_icon_workflow.json` — a real, working icon-generation production workflow (style ref → LLM-merged prompt → Nano Banana Pro generation → background removal → vectorization → 3D variant), kept as a structural reference and a source of reusable prompt text. Don't paste this whole file for unrelated requests — extract only the relevant node patterns.
+- `CHANGELOG.md` — one-line-per-finding history of what's changed or been newly confirmed in this skill, newest first. **Whenever you add a new 🔴/✅ CONFIRMED finding or change guidance anywhere in this skill, add an entry here too** — it's how the next session (or the user) can see what's evolved without diffing every file.
